@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 
-class NewMoviePage extends StatefulWidget {
+class NewMoviePage extends StatelessWidget {
   const NewMoviePage({Key? key}) : super(key: key);
 
   @override
-  _NewMoviePageState createState() => _NewMoviePageState();
-}
-
-class _NewMoviePageState extends State<NewMoviePage> {
-  TextEditingController nameController = TextEditingController();
-
-  @override
   Widget build(BuildContext context) {
+    TextEditingController nameController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("New Movie"),
