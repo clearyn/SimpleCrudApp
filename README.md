@@ -1,4 +1,4 @@
-# simple_crud_app
+# SimpleCrudApps
 
 This project is for testing purposes only, please use it if it helps you and give a star if you feel it helps you. Cheers
 
