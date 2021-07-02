@@ -15,10 +15,15 @@ abstract class _MovieList with Store {
   @action
   void create(
       String reqTitle, String reqDirector, String reqSummary, String reqTags) {
-    final newPrimaryKey = movies.last.primaryKey + 1;
-    final movie =
-        Movie(newPrimaryKey, reqTitle, reqDirector, reqSummary, reqTags);
-    movies.add(movie);
+    final newPrimaryKey = movies.length <= 0 ? 0 : movies.last.primaryKey + 1;
+    final newMovie = Movie(
+      newPrimaryKey,
+      reqTitle,
+      reqDirector,
+      reqSummary,
+      reqTags,
+    );
+    movies.add(newMovie);
   }
 
   @action

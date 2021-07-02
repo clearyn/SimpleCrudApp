@@ -7,8 +7,8 @@
 import 'package:auto_route/auto_route.dart' as _i1;
 import 'package:flutter/material.dart' as _i2;
 
+import 'detail_movie_page.dart' as _i4;
 import 'home_page.dart' as _i3;
-import 'new_movie_page.dart' as _i4;
 
 class AppRouter extends _i1.RootStackRouter {
   AppRouter([_i2.GlobalKey<_i2.NavigatorState>? navigatorKey])
@@ -21,17 +21,17 @@ class AppRouter extends _i1.RootStackRouter {
         builder: (_) {
           return const _i3.HomePage();
         }),
-    NewMovieRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
+    DetailMovieRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
         builder: (_) {
-          return const _i4.NewMoviePage();
+          return const _i4.DetailMoviePage();
         })
   };
 
   @override
   List<_i1.RouteConfig> get routes => [
         _i1.RouteConfig(HomeRoute.name, path: '/'),
-        _i1.RouteConfig(NewMovieRoute.name, path: '/new-movie-page')
+        _i1.RouteConfig(DetailMovieRoute.name, path: '/detail-movie-page')
       ];
 }
 
@@ -41,8 +41,8 @@ class HomeRoute extends _i1.PageRouteInfo {
   static const String name = 'HomeRoute';
 }
 
-class NewMovieRoute extends _i1.PageRouteInfo {
-  const NewMovieRoute() : super(name, path: '/new-movie-page');
+class DetailMovieRoute extends _i1.PageRouteInfo {
+  const DetailMovieRoute() : super(name, path: '/detail-movie-page');
 
-  static const String name = 'NewMovieRoute';
+  static const String name = 'DetailMovieRoute';
 }
