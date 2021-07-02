@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:simple_crud_app/movie.dart';
 import 'package:simple_crud_app/router.gr.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_crud_app/movie_list.dart';
@@ -102,7 +103,10 @@ class MoviesList extends StatelessWidget {
                 itemBuilder: (_, index) {
                   final movie = list.movies[index];
                   return MoviePanelListWidget(
-                      title: movie.title, director: movie.director);
+                    title: movie.title,
+                    director: movie.director,
+                    movieData: movie,
+                  );
                 },
               );
             } else {
@@ -121,33 +125,40 @@ class MoviesList extends StatelessWidget {
 //Movie Panel Widget Inside List
 class MoviePanelListWidget extends StatelessWidget {
   const MoviePanelListWidget(
-      {Key? key, required this.title, required this.director})
+      {Key? key,
+      required this.title,
+      required this.director,
+      required this.movieData})
       : super(key: key);
   final String title;
   final String director;
+  final Movie movieData;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: Container(
-        height: 50,
-        color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Flexible(
-                child: Container(
-              color: Colors.amber,
-              child: Text(title),
-            )),
-            Flexible(
-                child: Container(
-              color: Colors.orange,
-              child: Text(director),
-            )),
-          ],
+      child: GestureDetector(
+        onTap: () => context.pushRoute(DetailMovieRoute(movieData: movieData)),
+        child: Container(
+          height: 50,
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Flexible(
+                  child: Container(
+                color: Colors.amber,
+                child: Text(title),
+              )),
+              Flexible(
+                  child: Container(
+                color: Colors.orange,
+                child: Text(director),
+              )),
+            ],
+          ),
         ),
       ),
     );

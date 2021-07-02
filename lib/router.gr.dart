@@ -23,8 +23,10 @@ class AppRouter extends _i1.RootStackRouter {
         }),
     DetailMovieRoute.name: (routeData) => _i1.MaterialPageX<dynamic>(
         routeData: routeData,
-        builder: (_) {
-          return const _i4.DetailMoviePage();
+        builder: (data) {
+          final args = data.argsAs<DetailMovieRouteArgs>(
+              orElse: () => const DetailMovieRouteArgs());
+          return _i4.DetailMoviePage(key: args.key, movieData: args.movieData);
         })
   };
 
@@ -41,8 +43,19 @@ class HomeRoute extends _i1.PageRouteInfo {
   static const String name = 'HomeRoute';
 }
 
-class DetailMovieRoute extends _i1.PageRouteInfo {
-  const DetailMovieRoute() : super(name, path: '/detail-movie-page');
+class DetailMovieRoute extends _i1.PageRouteInfo<DetailMovieRouteArgs> {
+  DetailMovieRoute({_i2.Key? key, dynamic movieData})
+      : super(name,
+            path: '/detail-movie-page',
+            args: DetailMovieRouteArgs(key: key, movieData: movieData));
 
   static const String name = 'DetailMovieRoute';
+}
+
+class DetailMovieRouteArgs {
+  const DetailMovieRouteArgs({this.key, this.movieData});
+
+  final _i2.Key? key;
+
+  final dynamic movieData;
 }
