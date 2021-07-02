@@ -105,7 +105,7 @@ class MoviesList extends StatelessWidget {
                   return MoviePanelListWidget(
                     title: movie.title,
                     director: movie.director,
-                    movieData: movie,
+                    selectedMovieKey: movie.primaryKey,
                   );
                 },
               );
@@ -128,18 +128,19 @@ class MoviePanelListWidget extends StatelessWidget {
       {Key? key,
       required this.title,
       required this.director,
-      required this.movieData})
+      required this.selectedMovieKey})
       : super(key: key);
   final String title;
   final String director;
-  final Movie movieData;
+  final int selectedMovieKey;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: GestureDetector(
-        onTap: () => context.pushRoute(DetailMovieRoute(movieData: movieData)),
+        onTap: () =>
+            context.pushRoute(DetailMovieRoute(reqMovieKey: selectedMovieKey)),
         child: Container(
           height: 50,
           color: Colors.white,

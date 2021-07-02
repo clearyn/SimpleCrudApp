@@ -4,31 +4,46 @@ import 'package:simple_crud_app/movie.dart';
 import 'package:simple_crud_app/movie_list.dart';
 
 class DetailMoviePage extends StatelessWidget {
-  const DetailMoviePage({Key? key, this.movieData = ''}) : super(key: key);
-  final movieData;
+  final reqMovieKey;
+  const DetailMoviePage({Key? key, this.reqMovieKey = 0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(reqMovieKey);
     return Scaffold(
       appBar: AppBar(
-        title: Text(movieData is Movie ? 'Edit Movie' : 'New Movie'),
+        title: Text(reqMovieKey is int ? 'Edit Movie' : 'New Movie'),
       ),
       body: SingleChildScrollView(
-        child: movieData is Movie
-            ? UpdateMovie(reqMovieData: movieData)
+        child: reqMovieKey is int
+            ? UpdateMovie(uMovieKey: reqMovieKey)
             : NewMovie(),
       ),
     );
   }
 }
 
-class NewMovie extends StatelessWidget {
+class NewMovie extends StatefulWidget {
   const NewMovie({Key? key}) : super(key: key);
 
+  @override
+  _NewMovieState createState() => _NewMovieState();
+}
+
+class _NewMovieState extends State<NewMovie> {
   @override
   Widget build(BuildContext context) {
     final list = Provider.of<MovieList>(context);
     MovieForm newMovie = MovieForm();
+    Object dropdownvalue;
+    var items = [
+      'Apple',
+      'Banana',
+      'Grapes',
+      'Orange',
+      'watermelon',
+      'Pineapple'
+    ];
 
     return Container(
       child: Padding(
@@ -135,13 +150,13 @@ class NewMovie extends StatelessWidget {
 }
 
 class UpdateMovie extends StatelessWidget {
-  final Movie reqMovieData;
-  const UpdateMovie({Key? key, required this.reqMovieData}) : super(key: key);
+  final int uMovieKey;
+  const UpdateMovie({Key? key, required this.uMovieKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final list = Provider.of<MovieList>(context);
-    MovieForm newMovie = MovieForm();
+    Movie movieData = list.read(uMovieKey);
 
     return Container(
       child: Padding(
@@ -167,7 +182,7 @@ class UpdateMovie extends StatelessWidget {
                 //Delete Movie Data
                 GestureDetector(
                   onTap: () {
-                    list.delete(reqMovieData.primaryKey);
+                    list.delete(uMovieKey);
                     Navigator.pop(context);
                   },
                   child: Container(
@@ -190,8 +205,8 @@ class UpdateMovie extends StatelessWidget {
                 //Update Movie Data
                 GestureDetector(
                   onTap: () {
-                    list.update(newMovie.primaryKey, newMovie.title,
-                        newMovie.director, newMovie.summary, newMovie.tags);
+                    list.update(movieData.primaryKey, movieData.title,
+                        movieData.director, movieData.summary, movieData.tags);
                     Navigator.pop(context);
                   },
                   child: Container(
@@ -222,47 +237,47 @@ class UpdateMovie extends StatelessWidget {
                   SizedBox(height: 15.0),
                   //Input Title
                   TextFormField(
-                    initialValue: reqMovieData.title,
+                    initialValue: movieData.title,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelText: 'Title',
                     ),
-                    onChanged: (value) => newMovie.title = value,
+                    onChanged: (value) => movieData.title = value,
                   ),
                   SizedBox(height: 15.0),
                   //Input Director
                   TextFormField(
-                    initialValue: reqMovieData.director,
+                    initialValue: movieData.director,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelText: 'Director',
                     ),
-                    onChanged: (value) => newMovie.director = value,
+                    onChanged: (value) => movieData.director = value,
                   ),
                   SizedBox(height: 15.0),
                   //Input Tags
                   TextFormField(
-                    initialValue: reqMovieData.tags,
+                    initialValue: movieData.tags,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelText: 'Tags',
                     ),
-                    onChanged: (value) => newMovie.tags = value,
+                    onChanged: (value) => movieData.tags = value,
                   ),
                   SizedBox(height: 15.0),
                   //Input Summary
                   TextFormField(
-                    initialValue: reqMovieData.summary,
+                    initialValue: movieData.summary,
                     maxLines: 5,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       labelText: 'Summary',
                     ),
-                    onChanged: (value) => newMovie.summary = value,
+                    onChanged: (value) => movieData.summary = value,
                   ),
                 ],
               ),
