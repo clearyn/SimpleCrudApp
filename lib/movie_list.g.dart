@@ -27,8 +27,8 @@ mixin _$MovieList on _MovieList, Store {
   final _$_MovieListActionController = ActionController(name: '_MovieList');
 
   @override
-  void create(
-      String reqTitle, String reqDirector, String reqSummary, String reqTags) {
+  void create(String reqTitle, String reqDirector, String reqSummary,
+      List<String> reqTags) {
     final _$actionInfo =
         _$_MovieListActionController.startAction(name: '_MovieList.create');
     try {

@@ -31,19 +31,14 @@ class NewMovie extends StatefulWidget {
 }
 
 class _NewMovieState extends State<NewMovie> {
+  String dropdownValue = "Action";
+  List<String> tags = ["Action", "Comedy", "Fantasy", "Horror", "Sci-Fi"];
+  List<String> selectedTags = [];
+
   @override
   Widget build(BuildContext context) {
     final list = Provider.of<MovieList>(context);
     MovieForm newMovie = MovieForm();
-    Object dropdownvalue;
-    var items = [
-      'Apple',
-      'Banana',
-      'Grapes',
-      'Orange',
-      'watermelon',
-      'Pineapple'
-    ];
 
     return Container(
       child: Padding(
@@ -94,53 +89,82 @@ class _NewMovieState extends State<NewMovie> {
             //Spaces
             SizedBox(height: 10),
             //Movies List
-            Form(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(height: 15.0),
-                  //Input Title
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Title',
-                    ),
-                    onChanged: (value) => newMovie.title = value,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(height: 15.0),
+                //Input Title
+                TextFormField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: 'Title',
                   ),
-                  SizedBox(height: 15.0),
-                  //Input Director
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Director',
-                    ),
-                    onChanged: (value) => newMovie.director = value,
+                  onChanged: (value) => newMovie.title = value,
+                ),
+                SizedBox(height: 15.0),
+                //Input Director
+                TextFormField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: 'Director',
                   ),
-                  SizedBox(height: 15.0),
-                  //Input Tags
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Tags',
-                    ),
-                    onChanged: (value) => newMovie.tags = value,
+                  onChanged: (value) => newMovie.director = value,
+                ),
+                SizedBox(height: 15.0),
+                ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    padding: const EdgeInsets.all(8),
+                    itemCount: selectedTags.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Chip(
+                        label: Text('${selectedTags[index]}'),
+                      );
+                    }),
+                //Input Tags
+                // TextFormField(
+                //   initialValue: movieData.tags,
+                //   decoration: InputDecoration(
+                //     border: OutlineInputBorder(),
+                //     floatingLabelBehavior: FloatingLabelBehavior.always,
+                //     labelText: 'Tags',
+                //   ),
+                //   onChanged: (value) => movieData.tags = value,
+                // ),
+                // DropdownButton<String>(
+                //   isExpanded: true,
+                //   value: dropdownValue,
+                //   icon: const Icon(Icons.arrow_downward),
+                //   underline: Container(
+                //     height: 2,
+                //     color: Colors.deepPurpleAccent,
+                //   ),
+                //   onChanged: (String? newValue) {
+                //     setState(() {
+                //       dropdownValue = newValue!;
+                //     });
+                //   },
+                //   items: tags.map<DropdownMenuItem<String>>((String value) {
+                //     return DropdownMenuItem<String>(
+                //       value: value,
+                //       child: Text(value),
+                //     );
+                //   }).toList(),
+                // ),
+                SizedBox(height: 15.0),
+                //Input Summary
+                TextFormField(
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    labelText: 'Summary',
                   ),
-                  SizedBox(height: 15.0),
-                  //Input Summary
-                  TextFormField(
-                    maxLines: 5,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Summary',
-                    ),
-                    onChanged: (value) => newMovie.summary = value,
-                  ),
-                ],
-              ),
+                  onChanged: (value) => newMovie.summary = value,
+                ),
+              ],
             ),
           ],
         ),
@@ -149,14 +173,23 @@ class _NewMovieState extends State<NewMovie> {
   }
 }
 
-class UpdateMovie extends StatelessWidget {
+class UpdateMovie extends StatefulWidget {
   final int uMovieKey;
   const UpdateMovie({Key? key, required this.uMovieKey}) : super(key: key);
 
   @override
+  _UpdateMovieState createState() => _UpdateMovieState();
+}
+
+class _UpdateMovieState extends State<UpdateMovie> {
+  String dropdownValue = "Action";
+  List<String> tags = ["Action", "Comedy", "Fantasy", "Horror", "Sci-Fi"];
+  List<String> selectedTags = [];
+
+  @override
   Widget build(BuildContext context) {
     final list = Provider.of<MovieList>(context);
-    Movie movieData = list.read(uMovieKey);
+    Movie movieData = list.read(widget.uMovieKey);
 
     return Container(
       child: Padding(
@@ -182,7 +215,7 @@ class UpdateMovie extends StatelessWidget {
                 //Delete Movie Data
                 GestureDetector(
                   onTap: () {
-                    list.delete(uMovieKey);
+                    list.delete(widget.uMovieKey);
                     Navigator.pop(context);
                   },
                   child: Container(
@@ -257,15 +290,47 @@ class UpdateMovie extends StatelessWidget {
                     onChanged: (value) => movieData.director = value,
                   ),
                   SizedBox(height: 15.0),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      padding: const EdgeInsets.all(8),
+                      itemCount: movieData.tags.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Chip(
+                          label: Text('${movieData.tags[index]}'),
+                        );
+                      }),
                   //Input Tags
-                  TextFormField(
-                    initialValue: movieData.tags,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                      labelText: 'Tags',
+                  // TextFormField(
+                  //   initialValue: movieData.tags,
+                  //   decoration: InputDecoration(
+                  //     border: OutlineInputBorder(),
+                  //     floatingLabelBehavior: FloatingLabelBehavior.always,
+                  //     labelText: 'Tags',
+                  //   ),
+                  //   onChanged: (value) => movieData.tags = value,
+                  // ),
+                  DropdownButton<String>(
+                    isExpanded: true,
+                    value: dropdownValue,
+                    icon: const Icon(Icons.arrow_downward),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
                     ),
-                    onChanged: (value) => movieData.tags = value,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownValue = newValue!;
+                      });
+                      selectedTags.add(newValue!);
+                      movieData.tags = selectedTags;
+                    },
+                    items: tags.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
                   ),
                   SizedBox(height: 15.0),
                   //Input Summary

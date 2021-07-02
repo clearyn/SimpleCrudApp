@@ -24,7 +24,7 @@ abstract class _Movie with Store {
   String summary = '';
 
   @observable
-  String tags = '';
+  List<String> tags = [];
 }
 
 abstract class _MovieForm with Store {
@@ -41,5 +41,5 @@ abstract class _MovieForm with Store {
   String summary = '';
 
   @observable
-  String tags = '';
+  List<String> tags = [];
 }

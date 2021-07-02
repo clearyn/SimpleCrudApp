@@ -13,8 +13,8 @@ abstract class _MovieList with Store {
   ObservableList<Movie> movies = ObservableList<Movie>();
 
   @action
-  void create(
-      String reqTitle, String reqDirector, String reqSummary, String reqTags) {
+  void create(String reqTitle, String reqDirector, String reqSummary,
+      List<String> reqTags) {
     final newPrimaryKey = movies.length <= 0 ? 0 : movies.last.primaryKey + 1;
     final newMovie = Movie(
       newPrimaryKey,

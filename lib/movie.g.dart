@@ -72,13 +72,13 @@ mixin _$Movie on _Movie, Store {
   final _$tagsAtom = Atom(name: '_Movie.tags');
 
   @override
-  String get tags {
+  List<String> get tags {
     _$tagsAtom.reportRead();
     return super.tags;
   }
 
   @override
-  set tags(String value) {
+  set tags(List<String> value) {
     _$tagsAtom.reportWrite(value, super.tags, () {
       super.tags = value;
     });
@@ -160,13 +160,13 @@ mixin _$MovieForm on _MovieForm, Store {
   final _$tagsAtom = Atom(name: '_MovieForm.tags');
 
   @override
-  String get tags {
+  List<String> get tags {
     _$tagsAtom.reportRead();
     return super.tags;
   }
 
   @override
-  set tags(String value) {
+  set tags(List<String> value) {
     _$tagsAtom.reportWrite(value, super.tags, () {
       super.tags = value;
     });
